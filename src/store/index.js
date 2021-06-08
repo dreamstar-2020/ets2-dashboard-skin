@@ -11,6 +11,7 @@ import Vue    from 'vue';
 import Vuex   from 'vuex';
 import app    from './modules/_app';
 import config from './modules/_config';
+import friend from './modules/_friend';
 import menu   from './modules/_menu';
 import skins  from './modules/_skins';
 
@@ -20,6 +21,7 @@ const debug = process.env.NODE_ENV !== 'production';
 
 export default new Vuex.Store( {
 	modules: {
+		friend,
 		skins,
 		config,
 		menu,

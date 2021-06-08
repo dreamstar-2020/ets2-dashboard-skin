@@ -16,22 +16,24 @@
 </template>
 
 <script>
-import _history  from '@/utils/_history';
-import TabAbout  from './tabs/TabAbout';
-import TabConfig from './tabs/TabConfig';
-import TabSkins  from './tabs/TabSkins';
+import TabFriends from '@/components/Menu/tabs/TabFriends';
+import _history   from '@/utils/_history';
+import TabAbout   from './tabs/TabAbout';
+import TabConfig  from './tabs/TabConfig';
+import TabSkins   from './tabs/TabSkins';
 
 export default {
   name:       'Menu',
   components: {
     TabSkins,
     TabConfig,
+    TabFriends,
     TabAbout
   },
   data() {
     return {
-      currentTab: 'About',
-      tabs:       [ 'Skins', 'Config', 'About' ]
+      currentTab: 'Friends',
+      tabs:       [ 'Skins', 'Config', 'Friends', 'About' ]
     };
   },
   methods:    {

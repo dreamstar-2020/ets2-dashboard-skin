@@ -1,0 +1,143 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	ets2-dashboard-skin
+ * file: 	_element.scss
+ * Date: 	07/06/2021
+ * Time: 	18:30
+ */
+
+@import "../../common/variables";
+
+.friend {
+	//display:         flex;
+	//justify-content: space-between;
+	//align-items:     center;
+	
+	.card {
+		background:    lighten($cBlack, 4%);
+		@include prefixer(display, flex, ("webkit", "moz", "o"));
+		@include prefixer(justify-content, space-between, ("webkit", "moz", "o"));
+		@include prefixer(align-items, stretch, ("webkit", "moz", "o"));
+		@include prefixer(flex-direction, row, ("webkit", "moz", "o"));
+		border-radius: .5rem;
+		overflow:      hidden;
+		border:        1px solid darken($cBlack, 1%);
+		
+		&.active {
+			background:   transparentize($cRed, .5);
+			display:      flex;
+			border-color: $cRed;
+			
+			small.text-muted {
+				color: $cBlackTransparentHigh;
+			}
+		}
+		
+		&.disabled {
+			background:   transparentize($cGray, .5);
+			border-color: $cGray;
+			
+			small.text-muted {
+				color: $cBlackTransparentHigh;
+			}
+		}
+		
+		h5 > small {
+			font-size: .7rem;
+		}
+		
+		img {
+			@include prefixer(object-fit, cover, ("webkit", "moz", "o"));
+			max-width: 10rem;
+			min-width: 10rem;
+			width:     100%;
+			height:    100%;
+		}
+		
+		.card-title {
+			font-weight: bold;
+		}
+		
+		.card-text {
+			text-align: justify;
+		}
+		
+		.card-footer {
+			border:      none;
+			border-left: 1px solid rgba(0, 0, 0, .125);
+		}
+	}
+	
+	
+	.name {
+		display:         flex;
+		justify-content: flex-start;
+		align-items:     center;
+		padding:         .3rem;
+		font-size:       1.5rem;
+		
+		.status {
+			margin-right:  .6rem;
+			margin-left:   .6rem;
+			width:         .6rem;
+			height:        .6rem;
+			background:    transparent; //$cGreen
+			border-radius: 1rem;
+		}
+		
+		.code {
+			color:       $cGray;
+			font-size:   1rem;
+			font-style:  italic;
+			font-weight: lighter;
+		}
+	}
+	
+	.form {
+		display:         flex;
+		justify-content: center;
+		align-items:     flex-start;
+		flex-direction:  column;
+		font-size:       .9rem;
+		
+		.input {
+			cursor:        pointer;
+			background:    $cBlackTransparentHigh;
+			color:         $cWhite;
+			border-radius: 0;
+			box-shadow:    none;
+			border:        1px solid $cGray;
+			min-width:     15rem;
+			transition:    all .3s ease-in-out;
+			
+			&:hover:not(.prefix), &:focus {
+				border-color: $cRed;
+				background:   transparentize($cRed, .5);
+				transition:   all .1s ease-in-out;
+			}
+			
+			&.prefix, &.valid {
+				min-width:       auto;
+				padding:         0 .5rem;
+				cursor:          inherit;
+				display:         flex;
+				justify-content: center;
+				align-items:     center;
+			}
+			
+			&.prefix {
+				border-right: none;
+			}
+			
+			&.valid {
+				border-left: none;
+			}
+			
+			&.processing, &.processing > .value {
+				border-color: lighten(#000, 40%);
+				background:   transparentize(lighten(#000, 75%), .95);
+				transition:   all .1s ease-in-out;
+			}
+		}
+	}
+}
