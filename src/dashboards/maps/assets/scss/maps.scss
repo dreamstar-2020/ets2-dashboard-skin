@@ -24,6 +24,24 @@
 			background: $cBlackTransparentMid;
 		}
 		
+		.friend {
+			background:    $cGreen;
+			width:         1.5rem;
+			height:        1.5rem;
+			border-radius: 5rem;
+			//overflow: hidden;
+			position:      relative;
+			
+			&:after {
+				content:       attr(title);
+				position:      absolute;
+				left:          1.5rem;
+				background:    $cBlackTransparentMid;
+				padding:       0 .3rem;
+				border-radius: .5rem;
+			}
+		}
+		
 		#controls-wrapper, .ol-zoom, .eta-wrapper, #speed-area {
 			display:         flex;
 			justify-content: center;

@@ -154,6 +154,8 @@ export default {
              }, 1000 );
            // --- ./Dev
 
+           _maps.addOrUpdateFriendsOverlay();
+
            this.ready = true;
          } )
          .catch( e => {

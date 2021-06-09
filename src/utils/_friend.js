@@ -25,7 +25,10 @@ const make = ( name, code = null ) => {
 	
 	return {
 		code: c,
-		name: name
+		name: name,
+		long: 4390.900 + Math.floor( Math.random() * 300 ),
+		lat:  -53410.500 + Math.floor( Math.random() * 300 ),
+		rot:  0.9078420996665955 + Math.random()
 	};
 };
 

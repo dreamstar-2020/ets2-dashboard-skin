@@ -6,19 +6,11 @@
  * Time: 	13:41
  */
 
-/**
- * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
- * project:	ets2-dashboard-skin
- * file: 	skins.js
- * Date: 	02/05/2020
- * Time: 	09:27
- */
-
-import * as friendUtils from '@/utils/_friend';
+import * as uFriend from '@/utils/_friend';
 
 // initial state
 const state = () => ({
-	me:      friendUtils.make( 'Me' ),
+	me:      uFriend.make( 'Me' ),
 	friends: []
 });
 
@@ -45,7 +37,7 @@ const mutations = {
 	setMe( state, me ) {
 		state.me = me;
 	},
-	addFriends( state, friend ) {
+	addFriend( state, friend ) {
 		state.friends.push( friend );
 	}
 	//setConfigActive( state, name ) {

@@ -17,8 +17,8 @@ export default {
   components: { TabFriendElement },
   mixins:     [ AppSkinsMixins ],
   mounted() {
-    this.$store.commit( 'friend/addFriends', friendUtils.make( 'Power', 'BB-7894' ) );
-    this.$store.commit( 'friend/addFriends', friendUtils.make( 'Ranger', 'CC-4561' ) );
+    this.$store.commit( 'friend/addFriend', friendUtils.make( 'Power', 'BB-7894' ) );
+    this.$store.commit( 'friend/addFriend', friendUtils.make( 'Ranger', 'CC-4561' ) );
   },
   computed: {
     ...mapGetters( {

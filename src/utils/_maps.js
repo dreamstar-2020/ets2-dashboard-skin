@@ -9,7 +9,7 @@
 import _app                            from '@/utils/_app';
 import _history                        from '@/utils/_history';
 import axios                           from 'axios';
-import { Feature }                     from 'ol';
+import { Feature, Overlay }            from 'ol';
 import { defaults as defaultControls } from 'ol/control';
 import Point                           from 'ol/geom/Point';
 import Tile                            from 'ol/layer/Tile';
@@ -21,12 +21,13 @@ import XYZ                             from 'ol/source/XYZ';
 import { Icon, Style }                 from 'ol/style';
 import View                            from 'ol/View';
 import Vue                             from 'vue';
-import store                           from '../store/index';
+import store                           from '../store';
 
 let d = {
 	map:                       null,
 	playerIcon:                null,
 	playerFeature:             null,
+	friendsOverlays:           [],
 	gBehaviorCenterOnPlayer:   true,
 	gBehaviorRotateWithPlayer: true,
 	gIgnoreViewChangeEvents:   false,
@@ -208,6 +209,30 @@ const getPlayerLayer = () => {
 
 // ----
 
+const addOrUpdateFriendsOverlay = () => {
+	const friends = store.getters[ 'friend/friends' ];
+	
+	// Clear all friends overlay
+	d.friendsOverlays.forEach( fo => d.map.removeOverlay( fo ) );
+	d.friendsOverlays = [];
+	
+	friends.forEach( friend => {
+		//console.log( friend );
+		let el = document.createElement( 'div' );
+		//el.textContent = friend.name;
+		el.classList.add( 'friend' );
+		el.setAttribute( 'title', friend.name );
+		const fo = new Overlay( {
+			id:      friend.id,
+			element: el
+		} );
+		fo.setPosition( gameCoordToPixels( friend.long, friend.lat, friend.rot ) );
+		
+		d.friendsOverlays.push( fo );
+		d.map.addOverlay( fo );
+	} );
+};
+
 const updatePlayerPositionAndRotation = ( lon, lat, rot, speed ) => {
 	
 	if ( d.ready === null )
@@ -268,6 +293,7 @@ const gameCoordToPixels = ( x, y ) => {
 export {
 	d,
 	init,
+	addOrUpdateFriendsOverlay,
 	updatePlayerPositionAndRotation,
 	gameCoordToPixels
 };
