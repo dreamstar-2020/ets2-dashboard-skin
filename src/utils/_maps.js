@@ -27,7 +27,7 @@ let d = {
 	map:                       null,
 	playerIcon:                null,
 	playerFeature:             null,
-	friendsOverlays:           [],
+	friendsOverlays:           {},
 	gBehaviorCenterOnPlayer:   true,
 	gBehaviorRotateWithPlayer: true,
 	gIgnoreViewChangeEvents:   false,
@@ -160,6 +160,8 @@ const initMap = () => {
 		// The user has moved or rotated the map.
 		d.gBehaviorCenterOnPlayer = false;
 	} );
+	
+	initFriendsOverlay();
 };
 
 const init = ( game ) => {
@@ -207,30 +209,41 @@ const getPlayerLayer = () => {
 	} );
 };
 
-// ----
-
-const addOrUpdateFriendsOverlay = () => {
+const initFriendsOverlay = () => {
 	const friends = store.getters[ 'friend/friends' ];
 	
-	// Clear all friends overlay
-	d.friendsOverlays.forEach( fo => d.map.removeOverlay( fo ) );
-	d.friendsOverlays = [];
-	
-	friends.forEach( friend => {
-		//console.log( friend );
-		let el = document.createElement( 'div' );
-		//el.textContent = friend.name;
-		el.classList.add( 'friend' );
-		el.setAttribute( 'title', friend.name );
-		const fo = new Overlay( {
-			id:      friend.id,
-			element: el
-		} );
-		fo.setPosition( gameCoordToPixels( friend.long, friend.lat, friend.rot ) );
+	for ( const friendCode in friends ) {
+		let friend = friends[ friendCode ];
+		friend.overlay.setPosition( gameCoordToPixels( friend.long, friend.lat, friend.rot ) );
 		
-		d.friendsOverlays.push( fo );
-		d.map.addOverlay( fo );
+		d.map.addOverlay( friend.overlay );
+	}
+};
+
+// ----
+
+const createFriendOverlay = ( friend ) => {
+	let el   = document.createElement( 'div' );
+	let icon = document.createElement( 'span' );
+	let name = document.createElement( 'span' );
+	
+	icon.classList.add( 'player' );
+	name.textContent = friend.name;
+	el.appendChild( icon );
+	el.appendChild( name );
+	el.classList.add( 'friend' );
+	return new Overlay( {
+		id:      friend.id,
+		element: el
 	} );
+};
+
+const updateFriendsOverlay = () => {
+	const friends = store.getters[ 'friend/friends' ];
+	for ( const friendCode in friends ) {
+		let friend = friends[ friendCode ];
+		friend.overlay.setPosition( gameCoordToPixels( friend.long, friend.lat, friend.rot ) );
+	}
 };
 
 const updatePlayerPositionAndRotation = ( lon, lat, rot, speed ) => {
@@ -293,7 +306,8 @@ const gameCoordToPixels = ( x, y ) => {
 export {
 	d,
 	init,
-	addOrUpdateFriendsOverlay,
+	createFriendOverlay,
+	updateFriendsOverlay,
 	updatePlayerPositionAndRotation,
 	gameCoordToPixels
 };

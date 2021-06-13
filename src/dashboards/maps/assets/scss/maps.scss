@@ -25,20 +25,24 @@
 		}
 		
 		.friend {
-			background:    $cGreen;
-			width:         1.5rem;
-			height:        1.5rem;
-			border-radius: 5rem;
-			//overflow: hidden;
-			position:      relative;
+			background:      $cBlackTransparentMid;
+			padding:         0;
+			border-radius:   5rem 2rem 2rem 5rem;
+			display:         flex;
+			justify-content: space-between;
+			align-items:     center;
 			
-			&:after {
-				content:       attr(title);
-				position:      absolute;
-				left:          1.5rem;
-				background:    $cBlackTransparentMid;
-				padding:       0 .3rem;
-				border-radius: .5rem;
+			> span:not(.player) {
+				padding: 0 .3rem;
+			}
+			
+			> span.player {
+				position:      relative;
+				display:       inline-block;
+				background:    $cGreen;
+				width:         1.5rem;
+				height:        1.5rem;
+				border-radius: 5rem;
 			}
 		}
 		

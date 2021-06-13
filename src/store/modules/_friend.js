@@ -7,11 +7,12 @@
  */
 
 import * as uFriend from '@/utils/_friend';
+import * as _maps   from '@/utils/_maps';
 
 // initial state
 const state = () => ({
 	me:      uFriend.make( 'Me' ),
-	friends: []
+	friends: {}
 });
 
 // getters
@@ -26,10 +27,10 @@ const getters = {
 
 // actions
 const actions = {
-	//setFirstActive( { commit, getters } ) {
-	//	const active = getters.firstActive;
-	//	commit( 'setCurrent', active );
-	//}
+	createFriend( { commit }, friend ) {
+		friend.overlay = _maps.createFriendOverlay( friend );
+		commit( 'addOrUpdateFriend', friend );
+	}
 };
 
 // mutations
@@ -37,8 +38,13 @@ const mutations = {
 	setMe( state, me ) {
 		state.me = me;
 	},
-	addFriend( state, friend ) {
-		state.friends.push( friend );
+	addOrUpdateFriend( state, friend ) {
+		const currentFriend = state.friends[ friend.code ];
+		
+		if ( currentFriend !== undefined )
+			friend.overlay = currentFriend.overlay;
+		
+		state.friends[ friend.code ] = friend;
 	}
 	//setConfigActive( state, name ) {
 	//	let skin = state.all.filter( skin => skin.id === name );

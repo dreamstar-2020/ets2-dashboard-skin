@@ -104,12 +104,13 @@
 </template>
 
 <script>
-import { EventBus }   from '@/event-bus.js';
-import _history       from '@/utils/_history';
-import * as _maps     from '@/utils/_maps';
-import { mapGetters } from 'vuex';
-import Dashboard      from '../../../components/Elements/Dashboard';
-import _app           from '../../../utils/_app';
+import { EventBus }     from '@/event-bus.js';
+import * as friendUtils from '@/utils/_friend';
+import _history         from '@/utils/_history';
+import * as _maps       from '@/utils/_maps';
+import { mapGetters }   from 'vuex';
+import Dashboard        from '../../../components/Elements/Dashboard';
+import _app             from '../../../utils/_app';
 
 export default {
   name:       'DashMaps',
@@ -130,6 +131,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.dispatch( 'friend/createFriend', friendUtils.make( 'Power', 'BB-7894' ) );
+    this.$store.dispatch( 'friend/createFriend', friendUtils.make( 'Ranger', 'CC-4561' ) );
 
 
     _maps.init( this.telemetry.game.game.name )
@@ -154,7 +157,19 @@ export default {
              }, 1000 );
            // --- ./Dev
 
-           _maps.addOrUpdateFriendsOverlay();
+           _maps.updateFriendsOverlay();
+
+           // --- Dev
+           //setInterval( () => {
+           //  for ( var friendCode in this.friends ) {
+           //    const f = this.friends[ friendCode ];
+           //    const a = _friend.make( f.name, f.code );
+           //    this.$store.commit( 'friend/addOrUpdateFriend', a );
+           //  }
+           //
+           //  _maps.updateFriendsOverlay();
+           //}, 1000 );
+           // --- ./Dev
 
            this.ready = true;
          } )
@@ -170,7 +185,7 @@ export default {
          } );
 
   },
-  methods: {
+  methods:  {
     onClickMapInfo() {
       this.displayMapInfo = !this.displayMapInfo;
     },
@@ -190,7 +205,8 @@ export default {
   },
   computed: {
     ...mapGetters( {
-      getConfig: 'config/get'
+      getConfig: 'config/get',
+      friends:   'friend/friends'
     } )
   }
 };

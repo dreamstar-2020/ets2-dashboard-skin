@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import * as friendUtils from '@/utils/_friend';
 import { mapGetters }   from 'vuex';
 import AppSkinsMixins   from '../../Mixins/AppSkinsMixins';
 import TabFriendElement from './Elements/TabFriendElement';
@@ -16,10 +15,6 @@ export default {
   name:       'TabFriends',
   components: { TabFriendElement },
   mixins:     [ AppSkinsMixins ],
-  mounted() {
-    this.$store.commit( 'friend/addFriend', friendUtils.make( 'Power', 'BB-7894' ) );
-    this.$store.commit( 'friend/addFriend', friendUtils.make( 'Ranger', 'CC-4561' ) );
-  },
   computed: {
     ...mapGetters( {
       me:      'friend/me',
