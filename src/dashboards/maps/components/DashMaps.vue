@@ -104,13 +104,12 @@
 </template>
 
 <script>
-import { EventBus }     from '@/event-bus.js';
-import * as friendUtils from '@/utils/_friend';
-import _history         from '@/utils/_history';
-import * as _maps       from '@/utils/_maps';
-import { mapGetters }   from 'vuex';
-import Dashboard        from '../../../components/Elements/Dashboard';
-import _app             from '../../../utils/_app';
+import { EventBus }   from '@/event-bus.js';
+import _app           from '@/utils/_app';
+import _history       from '@/utils/_history';
+import * as _maps     from '@/utils/_maps';
+import { mapGetters } from 'vuex';
+import Dashboard      from '../../../components/Elements/Dashboard';
 
 export default {
   name:       'DashMaps',
@@ -131,10 +130,6 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch( 'friend/createFriend', friendUtils.make( 'Power', 'BB-7894' ) );
-    this.$store.dispatch( 'friend/createFriend', friendUtils.make( 'Ranger', 'CC-4561' ) );
-
-
     _maps.init( this.telemetry.game.game.name )
          .then( () => {
 
@@ -157,7 +152,7 @@ export default {
              }, 1000 );
            // --- ./Dev
 
-           _maps.updateFriendsOverlay();
+           //_maps.updateFriendsOverlay();
 
            // --- Dev
            //setInterval( () => {
@@ -206,7 +201,7 @@ export default {
   computed: {
     ...mapGetters( {
       getConfig: 'config/get',
-      friends:   'friend/friends'
+      //friends:   'friend/friends'
     } )
   }
 };

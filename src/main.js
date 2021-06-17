@@ -4,17 +4,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import Vue                           from 'vue';
 import VueClipboard                  from 'vue-clipboard2';
-import VueSocketIO                   from 'vue-socket.io';
 import VueInsomnia                   from 'vue-insomnia';
+import VueSocketIO                   from 'vue-socket.io';
 import App                           from './App.vue';
 import EventPlugin                   from './plugins/event.plugin';
+import FriendPlugin                  from './plugins/friends.plugin';
 import HistoryPlugin                 from './plugins/history.plugin';
 import TelemetryPlugin               from './plugins/telemetry.plugin';
 import store                         from './store';
-
-//window.$      = require( 'jquery' );
-//window.JQuery = require( 'jquery' );
-//window.NoSleep = require( 'nosleep.js' );
 
 Vue.use( BootstrapVue );
 Vue.use( IconsPlugin );
@@ -23,6 +20,7 @@ Vue.use( VueInsomnia );
 Vue.use( TelemetryPlugin );
 Vue.use( EventPlugin );
 Vue.use( HistoryPlugin );
+Vue.use( FriendPlugin );
 
 Vue.use( new VueSocketIO( {
 	debug:      false,

@@ -101,6 +101,8 @@ export default {
           }
         } );
 
+    this.friendInit();
+
     /*// Game connected
      setTimeout(()=> {
      this.launching = {

@@ -6,12 +6,11 @@
  * Time: 	13:41
  */
 
-import * as uFriend from '@/utils/_friend';
-import * as _maps   from '@/utils/_maps';
+import * as _maps from '@/utils/_maps';
 
 // initial state
 const state = () => ({
-	me:      uFriend.make( 'Me' ),
+	me:      {},
 	friends: {}
 });
 
@@ -36,6 +35,7 @@ const actions = {
 // mutations
 const mutations = {
 	setMe( state, me ) {
+		console.log( 'Update user', me );
 		state.me = me;
 	},
 	addOrUpdateFriend( state, friend ) {
@@ -46,19 +46,6 @@ const mutations = {
 		
 		state.friends[ friend.code ] = friend;
 	}
-	//setConfigActive( state, name ) {
-	//	let skin = state.all.filter( skin => skin.id === name );
-	//
-	//	//console.log( skin, name );
-	//
-	//	if ( skin.length === 0 )
-	//		throw 'NoSkinFound';
-	//
-	//	skin = _.first( skin );
-	//	//console.log( skin );
-	//
-	//	state.currentSkin = skin;
-	//}
 };
 
 export default {
