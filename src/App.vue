@@ -101,7 +101,7 @@ export default {
           }
         } );
 
-    this.friendInit();
+    this.$store.dispatch( 'friend/connect' );
 
     /*// Game connected
      setTimeout(()=> {

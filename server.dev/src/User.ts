@@ -39,8 +39,9 @@ export class UserList {
 	users: { [ key: string ]: User } = {};
 	
 	register( socketId: string, name: string ) {
-		const user             = new User( name );
-		this.users[ socketId ] = user;
+		this.users[ socketId ] = ( socketId in this.users )
+		                         ? this.users[ socketId ]
+		                         : new User( name );
 	}
 	
 	update( socketId: string, user: User ) {
@@ -50,4 +51,8 @@ export class UserList {
 	get( socketId: string ): User {
 		return this.users[ socketId ];
 	}
+	
+	isEmpty(): boolean {
+		return Object.keys( this.users ).length === 0;
+	};
 }

@@ -22,6 +22,7 @@
 		"server:start" :    "cd server && npm run start",
 		"server:dev" :      "cd server.dev && npm run start",
 		"friend.start" :    "cd server.friends && npm start",
+		"friend.dev" :      "cd server.friends && npm run dev",
 		"friend.lint" :     "cd server.friends && npm run lint",
 		"tiles:serv" :      "http-server ./maps -p 8081 --cors -s",
 		"font:build" :      "npx gulp build:font",
@@ -53,7 +54,7 @@
 		"vue-clipboard2" :                "^0.3.1",
 		"vue-insomnia" :                  "^0.1.0",
 		"vue-progressbar" :               "^0.7.5",
-		"vue-socket.io" :                 "^3.0.10",
+		"vue-socket.io" :                 "git+https://github.com/JAGFx/Vue-Socket.io.git",
 		"vuex" :                          "^3.6.2"
 	},
 	"devDependencies" : {

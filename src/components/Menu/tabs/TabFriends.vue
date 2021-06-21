@@ -1,9 +1,10 @@
 <template>
   <div class="tab-friends">
-    <input type="text" :value="myName">
-    <button @click="friendInit">Connect</button>
-    <button @click="registerMeFriend(myName)">Register</button>
-    <div v-if="friendConnected">
+    <input type="text" v-model="myName">
+    <!--    <h2>A: {{ fSocket }}</h2>-->
+    <!--    <button @click="friendInit">Connect</button>-->
+    <button @click="register(myName)">Register</button>
+    <div v-if="connected">
       <TabFriendElement :form="true" :friend="me" />
       <hr>
       <TabFriendElement v-for="friend in friends" :key="friend.code" :friend="friend" />
@@ -13,8 +14,8 @@
 </template>
 
 <script>
-import { mapGetters }   from 'vuex';
-import TabFriendElement from './Elements/TabFriendElement';
+import { mapActions, mapGetters } from 'vuex';
+import TabFriendElement           from './Elements/TabFriendElement';
 
 export default {
   name:       'TabFriends',
@@ -24,10 +25,16 @@ export default {
       myName: 'Hellow'
     };
   },
+  methods:  {
+    ...mapActions( {
+      register: 'friend/register'
+    } )
+  },
   computed: {
     ...mapGetters( {
-      me:      'friend/me',
-      friends: 'friend/friends'
+      me:        'friend/me',
+      friends:   'friend/friends',
+      connected: 'friend/connected'
     } )
   }
 };
