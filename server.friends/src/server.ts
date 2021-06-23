@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as http    from 'http';
-import { Server }   from 'ws';
-import { UserList } from '../../server.dev/src/User';
+import * as express                   from 'express';
+import * as http                      from 'http';
+import { UserList }                   from '../../server.dev/src/User';
+import { Socket, SocketCallbackData } from './utils/socket.utils';
 
 const port = 8999;
 
@@ -19,41 +19,27 @@ server.listen( process.env.PORT || port, () => {
 	console.log( 'Plop', server.address() );
 } );
 
-const ws = new Server( { server } );
-ws.on( 'connection', ( socket ) => {
-	function s4() {
-		return Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
-	}
+const socketServer = new Socket( server );
+socketServer.on( 'fr:register', ( callbackData: SocketCallbackData ) => {
+	console.log( callbackData.event );
 	
-	const uid = s4() + s4() + '-' + s4();
-	console.log( 'New connection', uid );
-	
-	socket.on( 'message', raw => {
-		const message = JSON.parse( raw );
-		console.log( 'OnMessage', message );
-		
-		switch ( message.event ) {
-			case 'fr:register':
-				// console.log( message.event );
-				userList.register( uid, message.data );
-				socket.send( JSON.stringify( {
-					event: 'fr:registered',
-					data:  userList.get( uid )
-				} ) );
-				break;
-		}
-	} );
-	
-	// socket.on( 'fr:update', () => {
-	// 	console.log( 'fr:update' );
-	// 	user.lat  = 1.20000;
-	// 	user.long = 2.20000;
-	// 	user.rot  = 3.20000;
-	// 	userList.update( socket.id, user );
-	// 	console.log( userList );
-	// } );
+	userList.register( callbackData.uid, callbackData.data );
+	callbackData.client.send( JSON.stringify( {
+		event: 'fr:registered',
+		data:  userList.get( callbackData.uid )
+	} ) );
 } );
 
+socketServer.start();
+
+// 	// client.on( 'fr:update', () => {
+// 	// 	console.log( 'fr:update' );
+// 	// 	user.lat  = 1.20000;
+// 	// 	user.long = 2.20000;
+// 	// 	user.rot  = 3.20000;
+// 	// 	userList.update( client.id, user );
+// 	// 	console.log( userList );
+// 	// } );
 
 setInterval( () => {
 	if ( !userList.isEmpty() ) {
