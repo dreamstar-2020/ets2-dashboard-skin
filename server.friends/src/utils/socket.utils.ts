@@ -6,32 +6,42 @@
  * Time: 	19:52
  */
 
+import * as express          from 'express';
 import http                  from 'http';
 import WebSocket, { Server } from 'ws';
 
 export class Socket {
-	private readonly _server: Server;
+	private readonly _websocketServer: WebSocket.Server;
+	private readonly _server: http.Server;
 	private _events: SocketEvent[] = [];
 	
-	constructor( server: http.Server ) {
-		this._server = new Server( { server } );
+	constructor( port: number = 8999 ) {
+		const app             = express.default();
+		this._server          = http.createServer( app );
+		this._websocketServer = new Server( {
+			server: this._server
+		} );
+		
+		this._server.listen( process.env.PORT || port, () => {
+			console.log( 'Plop', this._server.address() );
+		} );
 	}
 	
-	get server(): WebSocket.Server {
-		return this._server;
+	get websocketServer(): WebSocket.Server {
+		return this._websocketServer;
 	}
 	
 	public start(): void {
-		this._server.on( 'connection', ( client: WebSocket ) => {
-			const uid = this.generateUid();
+		this._websocketServer.on( 'connection', ( client: WebSocket ) => {
+			const uid = Socket.generateUid();
 			console.log( 'New connection', uid );
 			
 			client.on( 'message', raw => {
-				const parsed: SocketMessageData = JSON.parse( raw );
+				const parsed: SocketClientData = JSON.parse( raw );
 				
 				this._events.forEach( event => {
 					if ( event.name === parsed.event )
-						event.callback( new SocketCallbackData( parsed.event, client, uid, parsed.data ) );
+						event.callback( new SocketEventData( parsed.event, client, uid, parsed.data ) );
 				} );
 			} );
 		} );
@@ -45,7 +55,7 @@ export class Socket {
 		return Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
 	}
 	
-	private generateUid(): string {
+	private static generateUid(): string {
 		return Socket.generateS4() + Socket.generateS4() + '-' + Socket.generateS4();
 	}
 }
@@ -60,7 +70,7 @@ export class SocketEvent {
 	}
 }
 
-export class SocketMessageData {
+export class SocketClientData {
 	public event: string;
 	public data: object;
 	
@@ -68,9 +78,16 @@ export class SocketMessageData {
 		this.event = event;
 		this.data  = data;
 	}
+	
+	public static send( client: WebSocket, event: string, data: any ) {
+		client.send( JSON.stringify( {
+			event: event,
+			data:  data
+		} ) );
+	}
 }
 
-export class SocketCallbackData {
+export class SocketEventData {
 	public event: string;
 	public client: WebSocket;
 	public uid: string;

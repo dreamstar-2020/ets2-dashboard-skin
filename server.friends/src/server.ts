@@ -1,33 +1,16 @@
-import * as express                   from 'express';
-import * as http                      from 'http';
-import { UserList }                   from '../../server.dev/src/User';
-import { Socket, SocketCallbackData } from './utils/socket.utils';
+import { Socket, SocketClientData, SocketEventData } from './utils/socket.utils';
+import { UserList }                                  from './utils/user.utils';
 
 const port = 8999;
 
-// --
-
-let app    = express.default();
-let server = http.createServer( app );
-
-// --
-
 const userList = new UserList();
 
-
-server.listen( process.env.PORT || port, () => {
-	console.log( 'Plop', server.address() );
-} );
-
-const socketServer = new Socket( server );
-socketServer.on( 'fr:register', ( callbackData: SocketCallbackData ) => {
-	console.log( callbackData.event );
+const socketServer = new Socket( port );
+socketServer.on( 'fr:register', ( eventData: SocketEventData ) => {
+	console.log( eventData.event );
 	
-	userList.register( callbackData.uid, callbackData.data );
-	callbackData.client.send( JSON.stringify( {
-		event: 'fr:registered',
-		data:  userList.get( callbackData.uid )
-	} ) );
+	userList.register( eventData.uid, eventData.data );
+	SocketClientData.send( eventData.client, 'fr:registered', userList.get( eventData.uid ) );
 } );
 
 socketServer.start();
@@ -44,6 +27,6 @@ socketServer.start();
 setInterval( () => {
 	if ( !userList.isEmpty() ) {
 		// console.log( userList );
-		// ws.send( 'fr:userList', userList );
+		// socketServer.websocketServer.send( 'fr:userList', userList );
 	}
 }, 1000 );
