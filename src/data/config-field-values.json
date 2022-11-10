@@ -51,6 +51,10 @@
 			"value" : "Scania"
 		},
 		{
+			"label" : "Scania Next Gen",
+			"value" : "ScaniaNextGen"
+		},
+		{
 			"label" : "Volvo FH",
 			"value" : "VolvoFH"
 		}
@@ -221,14 +225,14 @@
 			"value" : "1.40"
 		}
 	],
-	"maps_map_tilesRemotePath" :        [
+	"maps_map_tilesRemotePath" :     [
 		{
-			"label" : "ets2.jagfx.fr",
-			"value" : "https://ets2.jagfx.fr"
+			"label" : "Unicor-p/SCS_Map_Tiles",
+			"value" : "https://raw.githubusercontent.com/Unicor-p/SCS_Map_Tiles/master/"
 		},
 		{
-			"label" : "TwinDragon/SCS_Map_Tiles",
-			"value" : "https://raw.githubusercontent.com/TwinDragon/SCS_Map_Tiles/master/"
+			"label" : "ets2.jagfx.fr (Deprecated)",
+			"value" : "https://ets2.jagfx.fr"
 		}
 	],
 	"maps_map_navigationRemaining" : [
@@ -241,7 +245,7 @@
 			"value" : "remaining_date"
 		}
 	],
-	"general_skin_locale": [
+	"general_skin_locale" :          [
 		{
 			"label" : "Chinese",
 			"value" : "cn-CN"
@@ -253,6 +257,28 @@
 		{
 			"label" : "French",
 			"value" : "fr-FR"
+		},
+		{
+			"label" : "Portuguese",
+			"value" : "pt-PT"
+		},
+		{
+			"label" : "Russian",
+			"value" : "ru-RU"
+		}
+	],
+	"scania_default_menu" : [
+		{
+			"label" : "Nothing",
+			"value" : null
+		},
+		{
+			"label" : "Cruise control, trip computer and driving time information",
+			"value" : "DrivingAssistance"
+		},
+		{
+			"label" : "Instantaneous data",
+			"value" : "InstantaneousData"
 		}
 	]
 }

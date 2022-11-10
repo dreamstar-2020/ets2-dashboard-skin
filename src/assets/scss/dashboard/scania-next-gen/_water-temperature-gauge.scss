@@ -1,0 +1,28 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	ets2-dashboard-skin
+ * file: 	_water-temperature.scss
+ * Date: 	06/03/2022
+ * Time: 	19:39
+ */
+
+.water-temperature-gauge {
+	position: absolute;
+	top: 30.4rem;
+	right: 18.1rem;
+	width: 8.4rem;
+	
+	&.bars .bar {
+		width: 0.7rem;
+		height: 0.25rem;
+		background: $cGreyLight;
+		
+		&.active {
+			background: $cWhite;
+		}
+		
+		&.red.active, &:last-child.active {
+			background: $cRed;
+		}
+	}
+}

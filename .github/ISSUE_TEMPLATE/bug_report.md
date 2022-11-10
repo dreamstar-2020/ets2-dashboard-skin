@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: bug, feature/todo
+labels: type/bug, work/todo
 assignees: ''
 
 ---
@@ -11,34 +11,26 @@ assignees: ''
 
 A clear and concise description of what the bug is.
 
-**Expected behavior**
+**Device**
 
-A clear and concise description of what you expected to happen.
+- Type (PC, tablet, mobile or others..): __**REQUIRED**__
+- OS (Windows, Android, iOS or other): __**REQUIRED**__
 
-**Screenshots**
+**Application**
 
-If applicable, add screenshots to help explain your problem.
+- Version: __**REQUIRED**__
+- SCS Telemetry version: __**REQUIRED**__
+- Skin name:
 
 **Logs**
 
-Copy and past the logs. To show it, tap or click 5 times on the left bottom corner.
+> [Read this](https://github.com/JAGFx/ets2-dashboard-skin/blob/master/CONTRIBUTING.md#logs) to know how found logs
 
-**Desktop (please complete the following information):**
+__**REQUIRED**__ Please copy and past your log OR provide a link to it.
 
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Configuration**
 
-**Smartphone (please complete the following information):**
+__**REQUIRED**__ Please copy and past your configuration OR provide a link to it
 
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-
-- Skin name: [e.g. JAGFx]
-- Dashboard version: [e.g. v1.2.1]
-- SCS Telemetry version: [e.g. 1.10.5]
-- Node version: [e.g. node14]
+Both configuration is required: The `config.json` and the game configuration `config.ets2.json` or `config.ats.json`
+.

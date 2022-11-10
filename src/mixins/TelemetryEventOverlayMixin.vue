@@ -1,19 +1,16 @@
 <script>
-
-import eventsText     from '@/data/events.json';
-import TelemetryMixin from '@/mixins/TelemetryMixin';
+import eventsText from '@/data/events.json';
 import { mapGetters } from 'vuex';
 
 export default {
-  mixins: [ TelemetryMixin ],
   computed: {
     ...mapGetters({
       eventProcessing: 'event/eventProcessing',
       eventName: 'event/eventName',
-      eventRawData: 'event/eventRawData',
+      eventRawData: 'event/eventRawData'
     }),
     eventsText() {
-      return eventsText[ this.eventName ];
+      return eventsText[this.eventName];
     }
   }
 };

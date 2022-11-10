@@ -1,12 +1,58 @@
 # Breaking change
 
+## v1.7.3+
+
+### Remote tiles location
+
+Due to moving all project around this into the Unicor'p organization, the value of the `maps_map_tilesRemotePath` have been changed.
+
+The older value is no longer available. Please update the value with the new one:
+```json
+    ...
+    "maps_map_tilesRemotePath" : "https://raw.githubusercontent.com/Unicor-p/SCS_Map_Tiles/master/",
+    ...
+```
+
+## v1.7.0+
+
+### Configurations files
+
+The configuration files are divided into two files:
+
+- The minimal configuration of the application `config.json`
+- The configuration of the game `config.ets2.json` or `config.ats.json`
+
+The old config file `config.ets2-dashboard-skin.json` is removed and is not used anymore.
+
+If you have changes for the following entries, edit `config.json`:
+
+- `general_refresh_rate`
+- `general_skin_on_load`
+- `general_h-shift-layout`
+- `general_skin_locale`
+- `general_job_remaining`
+- `general_port`
+
+For the others entries, edit the corresponding game configuration.
+
+All configuration files are placed in a `config` folder.
+
+For more information, read the [CONFIG_SETTINGS.md](CONFIG_SETTINGS.md) file
+
+### Map tiles remote
+
+The host hosted at `ets2.jagfx.fr` will not be updated anymore. In the next major release, it will be removed.
+
+Use the `Unicor-p/SCS_Map_Tiles` instead.
+
 ## v1.6.3+
 
-The configuration field `maps_map_tilesLocation` are be deprecated.
+The configuration field `maps_map_tilesLocation` is deprecated.
 
 Use the `maps_map_tilesRemoteCustomPath` instead.
 
 ## v1.6.0+
+
 It's not be planned, but a major change was introduced and cause a breaking change.
 
 From `v1.6.X` and more, there will not be able to work with the old map tiles collection (under `v1.5.X`)

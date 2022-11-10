@@ -76,16 +76,24 @@ Go to `Menu > Config` to change with your preference.
 
 ### How to
 
-The config file will store on the release archive.
-It's name `config.ets2-dashboard-skin.json`.
+The configuration files are stored in the version archive.
 
-This JSON file store your preference. I'm recommend you to change data from the app instead of this file
+The configuration files are divided into two files:
+
+- The minimal configuration of the application `config.json`
+- The configuration of the game `config.ets2.json` or `config.ats.json`
+
+The old config file `config.ets2-dashboard-skin.json` is deprecated and is not used anymore.
+
+This JSON file store your preference. I'm recommend you to change data from the app instead from file
 
 #### Save my config
 
 To save your config, two-way:
 - Click on "Download" button to save config on your device
 - Copy & past the config file from the release folder 
+
+Note: All configuration displayed on tab are for the current game.
 
 #### Update my config after release update
 
@@ -158,17 +166,16 @@ Currently, these locales are available:
 
 ### Add a new language
 
-The translations files was stored on `src/translations/` folder.
+If you want to contribute and add a new language, follow the instruction provided in [CONTRIBUTING.md](../CONTRIBUTING.md#translations)
 
-All translations files are in YAML format. The key are the English version and the value are your locale.
 
-If you want to contribute and add a new language: 
+## Manual for skin
 
-- Get the base file `src/translations/fr-FR.yaml`
-- Translate all values
-- Rename your file with the locale code like `fr_FR.yaml` and place on the `src/translations/` folder
-- Create a pull request
+In some skin, you've got access to manual to know more about icons. All icons come from the original manual brand. So it's like the reality.
 
+To view this manual, go to `Menu > Skins > Current active skin` and click on `Manual` button. 
+
+![Skin manual](screens/skin-manual.jpeg)
 
 ---
 ↩️ [Home](../README.md)

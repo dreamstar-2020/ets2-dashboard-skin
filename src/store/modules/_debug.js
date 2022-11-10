@@ -6,42 +6,42 @@
  * Time: 	19:30
  */
 
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 // initial state
 const state = () => ({
-	logs: []
+  logs: []
 });
 
 // getters
 const getters = {
-	logs: state => state.logs
+  logs: (state) => state.logs
 };
 
 // actions
 const actions = {
-	addLog( { commit }, dataIn ) {
-		const date    = moment();
-		const level   = dataIn.level;
-		const zone    = dataIn.zone;
-		const message = dataIn.message;
-		const line    = `[ ${ date.format( 'YYYY-MM-DD HH:mm:ss' ) } ][ ${ level } ][ ${ zone } ] ${ message }`;
-		
-		commit( 'pushLog', line );
-	}
+  addLog({ commit }, dataIn) {
+    const date = DateTime.now();
+    const level = dataIn.level;
+    const zone = dataIn.zone;
+    const message = dataIn.message;
+    const line = `[ ${date.toString()} ][ ${level} ][ ${zone} ] ${message}`;
+
+    commit('pushLog', line);
+  }
 };
 
 // mutations
 const mutations = {
-	pushLog( state, log ) {
-		state.logs.push( log );
-	}
+  pushLog(state, log) {
+    state.logs.push(log);
+  }
 };
 
 export default {
-	namespaced: true,
-	state,
-	getters,
-	actions,
-	mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 };

@@ -1,12 +1,17 @@
 # Configuration settings
 
-## Skin config
- 
-You can find common elements, and skin config.
+The configuration files are divided into two files:
+
+- The minimal configuration of the application `config.json`
+- The configuration of the game `config.ets2.json` or `config.ats.json`
+
+All configuration files are placed in a `config` folder.
+
+## Minimal application configuration
+
+All application configuration are placed into a `config.json` 
 
 ### General
-
-#### General 
 <table>
     <tr>
         <th>Key</th>
@@ -25,6 +30,14 @@ You can find common elements, and skin config.
             </ul>
         </td>
         <td>15</td>
+    </tr>
+    <tr>
+        <td>general_port</td>
+        <td>Port</td>
+        <td>
+            N/A
+        </td>
+        <td>3000</td>
     </tr>
     <tr>
         <td>general_skin_on_load</td>
@@ -91,7 +104,16 @@ You can find common elements, and skin config.
     </tr>
 </table>
 
-#### Event
+## Game configuration
+
+Each game (Eurotruck simulator 2 or Americantruck Simulator) has its own configuration file:
+
+- `config.ets2.json` for Eurotruck Simulator 2
+- `config.ats.json` for Americantruck Simulator
+
+But, all game configuration have same entries.
+
+### Event
 
 <table>
     <tr>
@@ -357,7 +379,7 @@ You can find common elements, and skin config.
 
 </table>
 
-#### Unit
+### Unit
 
 <table>
     <tr>
@@ -457,7 +479,10 @@ You can find common elements, and skin config.
     </tr>
 </table>
 
-### JAGFx
+
+### Skin configuration
+
+#### JAGFx
 
 <table>
     <tr>
@@ -675,12 +700,45 @@ You can find common elements, and skin config.
         </td>
         <td>false</td>
     </tr>
+    <tr>
+        <td>jagfx_elements_right_map</td>
+        <td>Display map</td>
+        <td>
+            <ul>
+                <li>true</li>
+                <li>false</li>
+            </ul>
+        </td>
+        <td>false</td>
+    </tr>
+</table>
 
+#### Scania
+
+<table>
+    <tr>
+        <th>Key</th>
+        <th>Name</th>
+        <th>Values</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td>scania_default_menu</td>
+        <td>Default menu</td>
+        <td>
+            <ul>
+                <li>null</li>
+                <li>DrivingAssistance</li>
+                <li>InstantaneousData</li>
+            </ul>
+        </td>
+        <td>null</td>
+    </tr>
 </table>
 
 > Note: We can displayed 7 element max in the right side and 4 in the middle side. Place your element on the top.
 
-### Maps
+#### Maps
 
 <table>
     <tr>
@@ -786,23 +844,34 @@ You can find common elements, and skin config.
         <td>vanilla</td>
     </tr>
     <tr>
+        <td>maps_map_tilesRemotePath</td>
+        <td>Remote tiles location</td>
+        <td>
+           <ul>
+                <li>https://ets2.jagfx.fr</li>
+                <li>https://raw.githubusercontent.com/Unicor-p/SCS_Map_Tiles/master/</li>
+            </ul>
+        </td>
+        <td>https://raw.githubusercontent.com/Unicor-p/SCS_Map_Tiles/master/</td>
+    </tr>
+    <tr>
+        <td>maps_map_tilesRemoteUseCustom</td>
+        <td>Custom tiles</td>
+        <td>
+            <ul>
+                <li>true</li>
+                <li>false</li>
+            </ul>
+        </td>
+        <td>false</td>
+    </tr>
+    <tr>
         <td>maps_map_tilesRemoteCustomPath</td>
         <td>Custom tiles location</td>
         <td>
             N/A
         </td>
         <td>null</td>
-    </tr>
-    <tr>
-        <td>maps_map_tilesRemoteUseCustom</td>
-        <td>Remote tiles location</td>
-        <td>
-            <ul>
-                <li>https://ets2.jagfx.fr</li>
-                <li>https://raw.githubusercontent.com/TwinDragon/SCS_Map_Tiles/master/</li>
-            </ul>
-        </td>
-        <td>https://ets2.jagfx.fr</td>
     </tr>    
     <tr>
         <td>maps_map_tilesVersion</td>

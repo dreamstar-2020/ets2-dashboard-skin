@@ -1,47 +1,34 @@
 <template>
   <div class="telemetry-event-overlay">
-    <b-overlay
-      :show="eventProcessing"
-      :variant="'dark'"
-      no-wrap
+    <div
+      class="overlay justify-content-center align-items-center d-flex"
+      :class="{
+        'd-flex': eventProcessing,
+        'd-none': !eventProcessing
+      }"
     >
-      <template
-        #overlay
-        class="d-flex justify-content-around align-items-center flex-column"
-      >
-        <component :is="currentRawDataComponent" />
-      </template>
-    </b-overlay>
+      <component :is="currentRawDataComponent" v-if="eventName !== null" />
+    </div>
   </div>
 </template>
 
 <script>
 import TelemetryEventDefaultOverlay from '@/components/overlays/telemetry-event/TelemetryEventDefaultOverlay';
-import TelemetryEventGameFerryOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventGameFerryOverlay';
-import TelemetryEventGameFineOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventGameFineOverlay';
-import TelemetryEventGameTollgateOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventGameTollgateOverlay';
-import TelemetryEventGameTrainOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventGameTrainOverlay';
-import TelemetryEventJobDeliveredOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventJobDeliveredOverlay';
-import TelemetryEventNavigationSpeedLimitOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventNavigationSpeedLimitOverlay';
-import TelemetryEventTrailersDamageOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventTrailersDamageOverlay';
-import TelemetryEventTruckCruiseControlIncreaseOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventTruckCruiseControlIncreaseOverlay';
-import TelemetryEventTruckDamageOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventTruckDamageOverlay';
-import TelemetryEventTruckWarningOverlay
-                                    from '@/components/overlays/telemetry-event/TelemetryEventTruckWarningOverlay';
-import TelemetryEventOverlayMixin   from '@/mixins/TelemetryEventOverlayMixin';
-import { event }                    from '@/utils/utils';
+import TelemetryEventGameFerryOverlay from '@/components/overlays/telemetry-event/TelemetryEventGameFerryOverlay';
+import TelemetryEventGameFineOverlay from '@/components/overlays/telemetry-event/TelemetryEventGameFineOverlay';
+import TelemetryEventGameTollgateOverlay from '@/components/overlays/telemetry-event/TelemetryEventGameTollgateOverlay';
+import TelemetryEventGameTrainOverlay from '@/components/overlays/telemetry-event/TelemetryEventGameTrainOverlay';
+import TelemetryEventJobDeliveredOverlay from '@/components/overlays/telemetry-event/TelemetryEventJobDeliveredOverlay';
+import TelemetryEventNavigationSpeedLimitOverlay from '@/components/overlays/telemetry-event/TelemetryEventNavigationSpeedLimitOverlay';
+import TelemetryEventTrailersDamageOverlay from '@/components/overlays/telemetry-event/TelemetryEventTrailersDamageOverlay';
+import TelemetryEventTruckCruiseControlIncreaseOverlay from '@/components/overlays/telemetry-event/TelemetryEventTruckCruiseControlIncreaseOverlay';
+import TelemetryEventTruckDamageOverlay from '@/components/overlays/telemetry-event/TelemetryEventTruckDamageOverlay';
+import TelemetryEventTruckWarningOverlay from '@/components/overlays/telemetry-event/TelemetryEventTruckWarningOverlay';
+import TelemetryEventOverlayMixin from '@/mixins/TelemetryEventOverlayMixin';
+import { eventNameToComponent } from '@/utils/_event';
 
 export default {
-  name:       'TelemetryEventOverlay',
+  name: 'TelemetryEventOverlay',
   components: {
     TelemetryEventDefaultOverlay,
     TelemetryEventJobDeliveredOverlay,
@@ -55,16 +42,15 @@ export default {
     TelemetryEventTruckWarningOverlay,
     TelemetryEventTruckDamageOverlay
   },
-  mixins:     [ TelemetryEventOverlayMixin ],
+  mixins: [TelemetryEventOverlayMixin],
   computed: {
     currentRawDataComponent() {
-      const eventComponentName = event.eventNameToComponent( this.eventName );
+      const eventComponentName = eventNameToComponent(this.eventName);
 
       try {
-        require( `./${ eventComponentName }` );
+        require(`./${eventComponentName}`);
         return eventComponentName;
-
-      } catch ( e ) {
+      } catch (e) {
         return 'TelemetryEventDefaultOverlay';
       }
     }

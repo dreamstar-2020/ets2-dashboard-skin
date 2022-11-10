@@ -1,0 +1,30 @@
+/**
+ * @author:	Emmanuel SMITH <hey@emmanuel-smith.me>
+ * project:	ets2-dashboard-skin
+ * file: 	_fuel-gauge.scss
+ * Date: 	06/03/2022
+ * Time: 	17:21
+ */
+
+@import "variable";
+
+.fuel-gauge {
+	position: absolute;
+	top: 30.5rem;
+	left: 18.6rem;
+	width: 8.4rem;
+	
+	&.bars .bar {
+		width: 0.7rem;
+		height: 0.25rem;
+		background: $cGreyLight;
+		
+		&.active {
+			background: $cWhite;
+		}
+		
+		&.red, &:first-child {
+			background: $cRed;
+		}
+	}
+}

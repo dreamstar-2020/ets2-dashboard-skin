@@ -4,10 +4,10 @@
       v-for="i in maxBarRpm"
       :key="i"
       :class="{
-        'active' : getRPMBarActive( i ),
-        'green': isAGreenBar( i ),
-        'blue': isABlueBar( i ),
-        'red': isARedBar( i )
+        active: getRPMBarActive(i),
+        green: isAGreenBar(i),
+        blue: isABlueBar(i),
+        red: isARedBar(i)
       }"
       class="bar"
     />
@@ -16,90 +16,154 @@
 
 <script>
 import truck_engine_rpm from '@/data/truck-engine-rpm.json';
-import jq               from 'json-query';
+import { store as telemetryStore } from '@/store/telemetry.store';
+import gsap from 'gsap';
+import jq from 'json-query';
 
 export default {
-  name:  'JagfxRPMBars',
+  name: 'JagfxRPMBars',
   props: {
-    brand: {
-      type: Object,
+    brandId: {
+      type: String,
       required: true
     },
-    engine: {
-      type: Object,
+    engineRpm: {
+      type: Number,
       required: true
     },
-    model: {
-      type: Object,
+    engineMaxRpm: {
+      type: Number,
+      required: true
+    },
+    modelId: {
+      type: String,
       required: true
     }
   },
-  data:  function () {
+  data() {
     return {
-      ter:       null,
-      maxBarRpm: 25
+      ter: null,
+      maxBarRpm: 25,
+      last: 0,
+      animationIsActive: false,
+      valueOnIgnitionAnimation: 0
     };
-		},
-		mounted() {
-			if ( this.brand !== undefined || this.model !== undefined ) {
-				const ter = JSON.parse( JSON.stringify( truck_engine_rpm ) );
-				this.ter  = jq( `trucks[brandId=${ this.brand.id }].models[modelId=${ this.model.id }]`,
-					{ data: ter } ).value;
-				
-				if ( this.ter === null ) {
-					this.ter = {
-						max:  2500,
-						low:  null,
-						mid:  null,
-						high: null
-					};
-				}
-			}
-		},
-		methods: {
-			getRPMBarActive:  function ( i ) {
-				if ( this.ter === undefined || this.ter === null )
-					return false;
-				
-				const rpmBarFrom = this.getCurrentRpmBar( i );
+  },
+  computed: {
+    ignitionIsOn: () => telemetryStore.model.truck.ignitionIsTurnedOn,
+    rpmValue() {
+      if (this.animationIsActive) return this.valueOnIgnitionAnimation;
 
-        return (this.engine.rpm.value >= rpmBarFrom && this.engine.rpm.value !== 0);
-			},
-			getCurrentRpmBar: function ( i ) {
-				if ( this.ter === null )
-					return 0;
-				
-				const maxBar   = this.maxBarRpm;
-				const rpmByBar = (this.engine.rpm.max / maxBar);
-				const iLow     = (maxBar - i);
-				
-				return (iLow * rpmByBar);
-			},
-			isAGreenBar:      function ( i ) {
-				if ( this.ter === null )
-					return false;
-				
-				const rpmBarFrom = this.getCurrentRpmBar( i );
-				
-				return this.ter.low !== null && (rpmBarFrom >= this.ter.low.from && rpmBarFrom <= this.ter.low.to);
-			},
-			isABlueBar:       function ( i ) {
-				if ( this.ter === null )
-					return false;
-				
-				const rpmBarFrom = this.getCurrentRpmBar( i );
-				
-				return this.ter.mid !== null && (rpmBarFrom >= this.ter.mid.from && rpmBarFrom <= this.ter.mid.to);
-			},
-			isARedBar:        function ( i ) {
-				if ( this.ter === null )
-					return false;
-				
-				const rpmBarFrom = this.getCurrentRpmBar( i );
+      return this.ignitionIsOn ? this.engineRpm : 0;
+    }
+  },
+  watch: {
+    rpmValue(newValue, oldValue) {
+      this.last = oldValue;
+    },
+    ignitionIsOn(value) {
+      const animationDuration = 0.8;
+      if (value) {
+        this.animationIsActive = true;
+        this.valueOnIgnitionAnimation = 0;
 
-        return this.ter.high !== null && (rpmBarFrom >= this.ter.high.from);
-			}
-		}
-	};
+        gsap
+          .to(this.$data, {
+            duration: animationDuration,
+            valueOnIgnitionAnimation: this.engineMaxRpm
+          })
+          .then(() => {
+            return gsap.to(this.$data, {
+              duration: animationDuration,
+              valueOnIgnitionAnimation: 0
+            });
+          })
+          .then(() => {
+            return gsap.to(this.$data, {
+              duration: animationDuration,
+              valueOnIgnitionAnimation: this.rpmValue
+            });
+          })
+          .then(() => {
+            this.animationIsActive = false;
+          });
+      } else {
+        this.animationIsActive = true;
+        this.valueOnIgnitionAnimation = this.last;
 
+        gsap
+          .to(this.$data, {
+            duration: animationDuration,
+            valueOnIgnitionAnimation: 0
+          })
+          .then(() => {
+            this.animationIsActive = false;
+          });
+      }
+    }
+  },
+  mounted() {
+    const ter = JSON.parse(JSON.stringify(truck_engine_rpm));
+    this.ter = jq(
+      `trucks[brandId=${this.brandId.id}].models[modelId=${this.modelId.id}]`,
+      { data: ter }
+    ).value;
+
+    if (this.ter === null) {
+      this.ter = {
+        max: 2500,
+        low: null,
+        mid: null,
+        high: null
+      };
+    }
+  },
+  methods: {
+    getRPMBarActive(i) {
+      if (this.ter === undefined || this.ter === null) return false;
+
+      const rpmBarFrom = this.getCurrentRpmBar(i);
+
+      return this.rpmValue >= rpmBarFrom && this.rpmValue !== 0;
+    },
+    getCurrentRpmBar(i) {
+      if (this.ter === null) return 0;
+
+      const maxBar = this.maxBarRpm;
+      const rpmByBar = this.engineMaxRpm / maxBar;
+      const iLow = maxBar - i;
+
+      return iLow * rpmByBar;
+    },
+    isAGreenBar(i) {
+      if (this.ter === null) return false;
+
+      const rpmBarFrom = this.getCurrentRpmBar(i);
+
+      return (
+        this.ter.low !== null &&
+        rpmBarFrom >= this.ter.low.from &&
+        rpmBarFrom <= this.ter.low.to
+      );
+    },
+    isABlueBar(i) {
+      if (this.ter === null) return false;
+
+      const rpmBarFrom = this.getCurrentRpmBar(i);
+
+      return (
+        this.ter.mid !== null &&
+        rpmBarFrom >= this.ter.mid.from &&
+        rpmBarFrom <= this.ter.mid.to
+      );
+    },
+    isARedBar(i) {
+      if (this.ter === null) return false;
+
+      const rpmBarFrom = this.getCurrentRpmBar(i);
+
+      return this.ter.high !== null && rpmBarFrom >= this.ter.high.from;
+    }
+  }
+};
 </script>
